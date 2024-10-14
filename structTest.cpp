@@ -10,11 +10,10 @@ struct Data {
 };
 
 int main () {
-    int i = 0;
     int n = 5; 
     Data student[n];
 
-    string expectedResult[5] = {
+    string expectedResult[15] = {
         "Student 1",
         "NIM: 537694",
         "Average: 89",
@@ -38,7 +37,7 @@ int main () {
     };
 
 
-    for (i=0; i<n; i++) {
+    for (int i=0; i<n; i++) {
         cout << "\nStudent " << i+1 << ": " << endl;
         cout << "Enter NIM: ";
         cin >> student[i].nim;
@@ -51,18 +50,31 @@ int main () {
     }
 
     cout << "----------" << endl;
-    string actualResult[5] = {
-        for (i=0; i<n; i++) {
-        cout << "\nStudent " << i+1 << endl;
-        cout << "NIM: " << student[i].nim << endl;
-        cout << "Average: "  << student[i].avg << endl;
+    string actualResult[15];
+    for (int i=0; i<n; i++) {
+        actualResult[i * 3] = "Student " + to_string(i+1);
+        actualResult[i * 3 + 1] = "NIM: " + to_string(student[i].nim);
+        
+        
+        float avg = student[i].avg;
+        int whole = static_cast<int>(avg);
+        int decimal = static_cast<int>((avg - whole) * 10);
+
+
+        if (decimal == 0) {
+            actualResult[i * 3 + 2] = "Average: " + to_string(whole);
         }
+        else {
+            actualResult[i * 3 + 2] = "Average: " + to_string(whole) + "." + to_string(decimal);
+        } 
     }
     
     bool testPassed = true;
-    for (i=0; i<5; i++) {
+    for (int i=0; i<15; i++) {
         if (actualResult[i] != expectedResult[i]) {
             testPassed = false;
+            cout << "Expected: " << expectedResult[i];
+            cout << ", but got " << actualResult[i];
             break;
         }
     }
